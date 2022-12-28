@@ -1,0 +1,16 @@
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form_control {
+  margin: 1rem;
+}
+
+.select_category {
+  width: 10rem;
+}
+
+.search_meal_name {
+  width: 10rem;
+}
