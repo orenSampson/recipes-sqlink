@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import RecipesHeader from '../recipesHeader/RecipesHeader';
-import RecipesDisplayer from '../recipesDisplayer/RecipesDisplayer';
+import RecipesHeader from '../RecipesHeader/RecipesHeader';
+import RecipesDisplayer from '../RecipesDisplayer/RecipesDisplayer';
 import getConciseRecipesByCategory from '../../../api/recipes/get-concise-recipes-by-category';
 import getFullRecipesByName from '../../../api/recipes/get-full-recipes-by-name';
 import {
@@ -41,8 +41,6 @@ const RecipesManager: React.FC = () => {
       transformFromAPIToInnerUse(fullRecipesByName);
 
     setFullRecipes(fullRecipesByNameInnerUse);
-
-    console.log('fullRecipesByNameInnerUse', fullRecipesByNameInnerUse);
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -7,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import Button from '@mui/material/Button';
 
 import getCategories from '../../../api/recipes/get-categories';
 import classes from './RecipesHeader.module.css';
@@ -111,6 +113,15 @@ const RecipesHeader: React.FC<{
     form = (
       <form className={classes.layout}>
         {selectCategory} {searchRecipesByName}
+        <div className={classes.form_control}>
+          <FormControl>
+            <Link to="/add-recipe">
+              <Button variant="contained" size="large">
+                Add Recipe
+              </Button>
+            </Link>
+          </FormControl>
+        </div>
       </form>
     );
   }

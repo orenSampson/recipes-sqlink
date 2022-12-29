@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-import RecipeDisplayer from './recipeDisplayer/RecipeDipslayer';
+import RecipeDisplayer from './RecipeDisplayer/RecipeDipslayer';
 import { FullRecipeInnerUse } from '../../../models/recipes';
 import classes from './RecipesDisplayer.module.css';
 
