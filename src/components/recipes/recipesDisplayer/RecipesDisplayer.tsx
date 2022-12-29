@@ -26,10 +26,10 @@ const RecipesDisplayer: React.FC<{
 
     setTotalNumOfPages(totalNumOfPagesCalc);
 
-    calcPage(1);
-  }, []);
+    SetRecipesForCurrentPage(calcSubArray(1));
+  }, [props.fullRecipesByCategory]);
 
-  const calcPage = (pageNumber: number) => {
+  const calcSubArray = (pageNumber: number) => {
     const lastIndex = props.fullRecipesByCategory.length - 1;
     const startIndex = (pageNumber - 1) * NUM_RECIPES_PER_PAGE;
     const endIndex = Math.min(pageNumber * NUM_RECIPES_PER_PAGE - 1, lastIndex);
@@ -39,12 +39,12 @@ const RecipesDisplayer: React.FC<{
       endIndex + 1
     );
 
-    SetRecipesForCurrentPage(subArray);
+    return subArray;
   };
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPageNumber(value);
-    calcPage(value);
+    SetRecipesForCurrentPage(calcSubArray(value));
   };
 
   const recipes = recipesForCurrentPage.map((recipe) => (
