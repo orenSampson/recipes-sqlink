@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
 import RecipesHeader from '../recipesHeader/RecipesHeader';
-// import RecipesDisplayer from '../recipesDisplayer/RecipesDisplayer';
+import RecipesDisplayer from '../recipesDisplayer/RecipesDisplayer';
 import getConciseRecipesByCategory from '../../../api/recipes/get-concise-recipes-by-category';
 import {
   ConciseRecipeByCategoryFromAPI,
   FullRecipeInnerUse,
 } from '../../../models/recipes';
-// import { FullRecipeFromAPI } from '../../../models/recipes';
 
 import { getFullRecipesFromAPI, transformFromAPIToInnerUse } from './utlis';
 
@@ -42,11 +41,11 @@ const RecipesManager: React.FC = () => {
     <div>
       <h1>Recipes</h1>
       <RecipesHeader onCategoryChangeHandler={onCategoryChangeHandler} />
-      {/* {fullRecipesByCategory.length === 0 ? (
+      {fullRecipesByCategory.length === 0 ? (
         <h1>List of recipes not ready yet</h1>
       ) : (
         <RecipesDisplayer fullRecipesByCategory={fullRecipesByCategory} />
-      )} */}
+      )}
     </div>
   );
 };
