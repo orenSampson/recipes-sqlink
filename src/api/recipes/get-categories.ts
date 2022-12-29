@@ -1,12 +1,16 @@
 import axios from 'axios';
 
-import { CategoryFromAPI } from '../models/recipes';
+// import { CategoryFromAPI } from '../models/recipes';
+
+export interface CategoryFromAPI {
+  strCategory: string;
+}
 
 interface GetCategoriesResponse {
   meals: CategoryFromAPI[];
 }
 
-export const getCategories = async () => {
+const getCategories = async () => {
   const GET_CATEGORIES_URL =
     'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 
@@ -20,3 +24,5 @@ export const getCategories = async () => {
     return [];
   }
 };
+
+export default getCategories;

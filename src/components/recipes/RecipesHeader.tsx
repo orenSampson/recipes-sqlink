@@ -4,23 +4,23 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-
-// import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { getCategories } from '../../api/recipes-api-calls';
+import getCategories from '../../api/recipes/get-categories';
 import classes from './RecipesHeader.module.css';
 
-const RecipesHeader: React.FC = () => {
+const RecipesHeader: React.FC<{
+  onCategoryChangeHandler: (nameOfCategory: string) => void;
+}> = (props) => {
   const [categories, setCategories] = React.useState<string[]>([]);
   const [chosenCategory, setChosenCategory] = React.useState<string>('');
 
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const getFunc = async () => {
+    const getCategiesFuncUseEffect = async () => {
       const categoriesFromAPI = await getCategories();
 
       const stringCatrgories: string[] = [];
@@ -32,11 +32,12 @@ const RecipesHeader: React.FC = () => {
       }
 
       setChosenCategory(stringCatrgories[0]);
+      props.onCategoryChangeHandler(stringCatrgories[0]);
 
       setCategories(stringCatrgories);
     };
 
-    getFunc();
+    getCategiesFuncUseEffect();
   }, []);
 
   const menuItems = categories.map((category) => {
@@ -49,6 +50,7 @@ const RecipesHeader: React.FC = () => {
 
   const onSelectChangeHandler = (event: SelectChangeEvent) => {
     setChosenCategory(event.target.value as string);
+    props.onCategoryChangeHandler(event.target.value as string);
   };
 
   const selectCategory = (
