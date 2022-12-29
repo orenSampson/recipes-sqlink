@@ -8,7 +8,7 @@ import { FullRecipeDetailsFromAPI } from '../../models/recipes';
 
 const RecipesManager: React.FC = () => {
   // const [chosenCategory, setChosenCategory] = useState<string>('');
-  const [fullrecipesByCategory, setFullRecipesByCategory] = useState<
+  const [fullRecipesByCategory, setFullRecipesByCategory] = useState<
     FullRecipeDetailsFromAPI[]
   >([]);
 
@@ -46,10 +46,10 @@ const RecipesManager: React.FC = () => {
     <div>
       <h1>Recipes</h1>
       <RecipesHeader onCategoryChangeHandler={onCategoryChangeHandler} />
-      {fullrecipesByCategory.length === 0 ? (
+      {fullRecipesByCategory.length === 0 ? (
         <h1>List of recipes not ready yet</h1>
       ) : (
-        <RecipesDisplayer fullrecipesByCategory={fullrecipesByCategory} />
+        <RecipesDisplayer fullRecipesByCategory={fullRecipesByCategory} />
       )}
     </div>
   );
