@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RecipesManager from './components/recipes/RecipesManager';
+import RecipesManager from './components/recipes/recipesManager/RecipesManager';
 
 function App() {
   return (

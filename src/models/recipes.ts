@@ -1,4 +1,10 @@
-export interface FullRecipeDetailsFromAPI {
+export interface ConciseRecipeByCategoryFromAPI {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+}
+
+export interface FullRecipeFromAPI {
   idMeal: string | null;
   strMeal: string | null;
   strDrinkAlternate: string | null;
@@ -48,6 +54,24 @@ export interface FullRecipeDetailsFromAPI {
   strMeasure18: string | null;
   strMeasure19: string | null;
   strMeasure20: string | null;
+  strSource: string | null;
+  strImageSource: string | null;
+  strCreativeCommonsConfirmed: string | null;
+  dateModified: string | null;
+}
+
+export interface FullRecipeInnerUse {
+  idMeal: string | null;
+  strMeal: string | null;
+  strDrinkAlternate: string | null;
+  strCategory: string | null;
+  strArea: string | null;
+  strInstructions: string | null;
+  strMealThumb: string | null;
+  strTags: string | null;
+  strYoutube: string | null;
+  strIngredientsArray: string[];
+  strMeasuresArray: string[];
   strSource: string | null;
   strImageSource: string | null;
   strCreativeCommonsConfirmed: string | null;

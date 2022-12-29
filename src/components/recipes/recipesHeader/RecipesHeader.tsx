@@ -8,7 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-import getCategories from '../../api/recipes/get-categories';
+import getCategories from '../../../api/recipes/get-categories';
 import classes from './RecipesHeader.module.css';
 
 const RecipesHeader: React.FC<{
