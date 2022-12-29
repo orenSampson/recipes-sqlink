@@ -60,6 +60,10 @@ export interface FullRecipeFromAPI {
   dateModified: string | null;
 }
 
+export type IngredientAndMeasure = {
+  ingredient: string;
+  measure: string;
+};
 export interface FullRecipeInnerUse {
   idMeal: string | null;
   strMeal: string | null;
@@ -70,8 +74,7 @@ export interface FullRecipeInnerUse {
   strMealThumb: string | null;
   strTags: string | null;
   strYoutube: string | null;
-  strIngredientsArray: string[];
-  strMeasuresArray: string[];
+  strIngredientsAndMeasuresArray: IngredientAndMeasure[];
   strSource: string | null;
   strImageSource: string | null;
   strCreativeCommonsConfirmed: string | null;

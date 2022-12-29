@@ -27,18 +27,15 @@ const RecipesManager: React.FC = () => {
       return;
     }
 
-    console.log(
-      'conciseRecipesByCategoryFromAPI :>> ',
+    const fullRecipesFromAPI = await getFullRecipesFromAPI(
       conciseRecipesByCategoryFromAPI
     );
 
-    // const fullRecipesFromAPI = await getFullRecipesFromAPI(
-    //   conciseRecipesByCategoryFromAPI
-    // );
+    const fullRecipesInnerUse = await transformFromAPIToInnerUse(
+      fullRecipesFromAPI
+    );
 
-    // await transformFromAPIToInnerUse(fullRecipesFromAPI);
-
-    // setFullRecipesByCategory(fullRecipesInnerUse);
+    setFullRecipesByCategory(fullRecipesInnerUse);
   };
 
   return (

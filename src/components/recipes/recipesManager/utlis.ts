@@ -2,8 +2,8 @@ import {
   ConciseRecipeByCategoryFromAPI,
   FullRecipeFromAPI,
   FullRecipeInnerUse,
+  IngredientAndMeasure,
 } from '../../../models/recipes';
-
 import getFullRecipeByID from '../../../api/recipes/get-full-recipe-by-ID';
 
 export const getFullRecipesFromAPI = async (
@@ -34,9 +34,7 @@ export const transformFromAPIToInnerUse = async (
 ) => {
   const fullRecipesInnerUse = fullRecipesFromAPI.map(
     (someFullRecipeFromAPI) => {
-      console.log('someFullRecipeFromAPI', someFullRecipeFromAPI);
-
-      const someFullRecipeInnerUSe: FullRecipeInnerUse = {
+      const someFullRecipeInnerUse: FullRecipeInnerUse = {
         idMeal: someFullRecipeFromAPI.idMeal,
         strMeal: someFullRecipeFromAPI.strMeal,
         strDrinkAlternate: someFullRecipeFromAPI.strDrinkAlternate,
@@ -46,8 +44,7 @@ export const transformFromAPIToInnerUse = async (
         strMealThumb: someFullRecipeFromAPI.strMealThumb,
         strTags: someFullRecipeFromAPI.strTags,
         strYoutube: someFullRecipeFromAPI.strYoutube,
-        strIngredientsArray: [],
-        strMeasuresArray: [],
+        strIngredientsAndMeasuresArray: [],
         strSource: someFullRecipeFromAPI.strSource,
         strImageSource: someFullRecipeFromAPI.strImageSource,
         strCreativeCommonsConfirmed:
@@ -57,28 +54,27 @@ export const transformFromAPIToInnerUse = async (
 
       for (let index = 1; index <= 20; index++) {
         const currentIngredientKey = `strIngredient${index}`;
-        const currentstrMeasureKey = `strMeasure${index}`;
+        const currentMeasureKey = `strMeasure${index}`;
         const currentIngredient =
           someFullRecipeFromAPI[
             currentIngredientKey as keyof FullRecipeFromAPI
           ];
-        const currentstrMeasure =
-          someFullRecipeFromAPI[
-            currentstrMeasureKey as keyof FullRecipeFromAPI
-          ];
+        const currentMeasure =
+          someFullRecipeFromAPI[currentMeasureKey as keyof FullRecipeFromAPI];
 
-        if (currentIngredient) {
-          someFullRecipeInnerUSe.strIngredientsArray.push(currentIngredient);
-        }
+        if (currentIngredient && currentMeasure) {
+          const ingredientAndMeasure: IngredientAndMeasure = {
+            ingredient: currentIngredient,
+            measure: currentMeasure,
+          };
 
-        if (currentstrMeasure) {
-          someFullRecipeInnerUSe.strMeasuresArray.push(currentstrMeasure);
+          someFullRecipeInnerUse.strIngredientsAndMeasuresArray.push(
+            ingredientAndMeasure
+          );
         }
       }
 
-      console.log('someFullRecipeInnerUSe', someFullRecipeInnerUSe);
-
-      return someFullRecipeInnerUSe;
+      return someFullRecipeInnerUse;
     }
   );
 
