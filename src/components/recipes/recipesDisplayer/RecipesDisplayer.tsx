@@ -9,7 +9,7 @@ import classes from './RecipesDisplayer.module.css';
 const NUM_RECIPES_PER_PAGE = 10;
 
 const RecipesDisplayer: React.FC<{
-  fullRecipesByCategory: FullRecipeInnerUse[];
+  fullRecipes: FullRecipeInnerUse[];
 }> = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalNumOfPages, setTotalNumOfPages] = useState(0);
@@ -21,23 +21,20 @@ const RecipesDisplayer: React.FC<{
     setPageNumber(1);
 
     const totalNumOfPagesCalc = Math.ceil(
-      props.fullRecipesByCategory.length / NUM_RECIPES_PER_PAGE
+      props.fullRecipes.length / NUM_RECIPES_PER_PAGE
     );
 
     setTotalNumOfPages(totalNumOfPagesCalc);
 
     SetRecipesForCurrentPage(calcSubArray(1));
-  }, [props.fullRecipesByCategory]);
+  }, [props.fullRecipes]);
 
   const calcSubArray = (pageNumber: number) => {
-    const lastIndex = props.fullRecipesByCategory.length - 1;
+    const lastIndex = props.fullRecipes.length - 1;
     const startIndex = (pageNumber - 1) * NUM_RECIPES_PER_PAGE;
     const endIndex = Math.min(pageNumber * NUM_RECIPES_PER_PAGE - 1, lastIndex);
 
-    const subArray = props.fullRecipesByCategory.slice(
-      startIndex,
-      endIndex + 1
-    );
+    const subArray = props.fullRecipes.slice(startIndex, endIndex + 1);
 
     return subArray;
   };

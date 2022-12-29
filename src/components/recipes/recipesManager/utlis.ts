@@ -29,7 +29,7 @@ export const getFullRecipesFromAPI = async (
   return fullRecipesFromAPI;
 };
 
-export const transformFromAPIToInnerUse = async (
+export const transformFromAPIToInnerUse = (
   fullRecipesFromAPI: FullRecipeFromAPI[]
 ) => {
   const fullRecipesInnerUse = fullRecipesFromAPI.map(

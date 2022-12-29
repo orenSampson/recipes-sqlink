@@ -13,11 +13,12 @@ import classes from './RecipesHeader.module.css';
 
 const RecipesHeader: React.FC<{
   onCategoryChangeHandler: (nameOfCategory: string) => void;
+  onClickSearchRecipesByNameHandler: (name: string) => void;
 }> = (props) => {
   const [categories, setCategories] = React.useState<string[]>([]);
   const [chosenCategory, setChosenCategory] = React.useState<string>('');
 
-  const searchRef = useRef<HTMLInputElement>(null);
+  const searchRecipesByNameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const getCategiesFuncUseEffect = async () => {
@@ -49,9 +50,19 @@ const RecipesHeader: React.FC<{
   });
 
   const onSelectChangeHandler = (event: SelectChangeEvent) => {
+    searchRecipesByNameRef.current!.value = '';
+
     setChosenCategory(event.target.value as string);
     props.onCategoryChangeHandler(event.target.value as string);
   };
+
+  function handleSearchRecipesByName() {
+    setChosenCategory('');
+
+    props.onClickSearchRecipesByNameHandler(
+      searchRecipesByNameRef.current!.value
+    );
+  }
 
   const selectCategory = (
     <div className={classes.form_control}>
@@ -70,18 +81,18 @@ const RecipesHeader: React.FC<{
     </div>
   );
 
-  const searchMealName = (
+  const searchRecipesByName = (
     <div className={classes.form_control}>
       <FormControl variant="outlined">
-        <div className={classes.search_meal_name}>
+        <div className={classes.search_recipes_by_name}>
           <TextField
             label="Search"
-            inputRef={searchRef}
+            inputRef={searchRecipesByNameRef}
             type="text"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleClickSearch} edge="end">
+                  <IconButton onClick={handleSearchRecipesByName} edge="end">
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>
@@ -93,19 +104,14 @@ const RecipesHeader: React.FC<{
     </div>
   );
 
-  function handleClickSearch() {
-    console.log('searchRef.current?.value :>> ', searchRef.current!.value);
-    console.log('chosenCategory :>> ', chosenCategory);
-  }
-
   let form;
   if (categories.length === 0) {
     form = <h6>header is not ready yet</h6>;
   } else {
     form = (
-      <div className={classes.layout}>
-        {selectCategory} {searchMealName}
-      </div>
+      <form className={classes.layout}>
+        {selectCategory} {searchRecipesByName}
+      </form>
     );
   }
 

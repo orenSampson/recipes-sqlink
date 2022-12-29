@@ -21,6 +21,9 @@ const RecipeDisplayer: React.FC<{
           src={`${props.recipe.strMealThumb}/preview`}
           alt="Paella dish"
         />
+        <CardContent>
+          <Typography>{props.recipe.strMeal}</Typography>
+        </CardContent>
       </Card>
     </div>
   );
