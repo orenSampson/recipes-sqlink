@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Container from '@mui/material/Container';
 
 import RecipesPage from './pages/RecipesPage';

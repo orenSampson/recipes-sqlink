@@ -16,6 +16,12 @@ import classes from './RecipesHeader.module.css';
 const RecipesHeader: React.FC = (props) => {
   const recipesCtx = useContext(RecipesContext);
 
+  useEffect(() => {
+    recipesCtx.setChosenCategoryHandler(recipesCtx.categories[1]);
+
+    recipesCtx.onCategoryChange(recipesCtx.categories[1]);
+  }, []);
+
   const searchRecipesByNameRef = useRef<HTMLInputElement>(null);
 
   const menuItems = recipesCtx.categories.map((category) => {
