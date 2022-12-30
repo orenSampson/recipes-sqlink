@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,40 +10,15 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 
-import getCategories from '../../../api/recipes/get-categories';
+import { RecipesContext } from '../../../store/recipes-context';
 import classes from './RecipesHeader.module.css';
 
-const RecipesHeader: React.FC<{
-  onCategoryChangeHandler: (nameOfCategory: string) => void;
-  onClickSearchRecipesByNameHandler: (name: string) => void;
-}> = (props) => {
-  const [categories, setCategories] = React.useState<string[]>([]);
-  const [chosenCategory, setChosenCategory] = React.useState<string>('');
+const RecipesHeader: React.FC = (props) => {
+  const recipesCtx = useContext(RecipesContext);
 
   const searchRecipesByNameRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const getCategiesFuncUseEffect = async () => {
-      const categoriesFromAPI = await getCategories();
-
-      const stringCatrgories: string[] = [];
-
-      for (let index = 0; index < categoriesFromAPI.length; index++) {
-        const element = categoriesFromAPI[index];
-
-        stringCatrgories.push(element.strCategory);
-      }
-
-      setChosenCategory(stringCatrgories[0]);
-      props.onCategoryChangeHandler(stringCatrgories[0]);
-
-      setCategories(stringCatrgories);
-    };
-
-    getCategiesFuncUseEffect();
-  }, []);
-
-  const menuItems = categories.map((category) => {
+  const menuItems = recipesCtx.categories.map((category) => {
     return (
       <MenuItem key={category} value={category}>
         {category}
@@ -54,14 +29,15 @@ const RecipesHeader: React.FC<{
   const onSelectChangeHandler = (event: SelectChangeEvent) => {
     searchRecipesByNameRef.current!.value = '';
 
-    setChosenCategory(event.target.value as string);
-    props.onCategoryChangeHandler(event.target.value as string);
+    recipesCtx.setChosenCategoryHandler(event.target.value as string);
+
+    recipesCtx.onCategoryChange(event.target.value as string);
   };
 
   function handleSearchRecipesByName() {
-    setChosenCategory('');
+    recipesCtx.setChosenCategoryHandler('');
 
-    props.onClickSearchRecipesByNameHandler(
+    recipesCtx.onClickSearchRecipesByName(
       searchRecipesByNameRef.current!.value
     );
   }
@@ -73,7 +49,8 @@ const RecipesHeader: React.FC<{
         <Select
           className={classes.select_category}
           labelId="category"
-          value={chosenCategory}
+          defaultValue=""
+          value={recipesCtx.chosenCategory}
           label="category"
           onChange={onSelectChangeHandler}
         >
@@ -106,27 +83,20 @@ const RecipesHeader: React.FC<{
     </div>
   );
 
-  let form;
-  if (categories.length === 0) {
-    form = <h6>header is not ready yet</h6>;
-  } else {
-    form = (
-      <form className={classes.layout}>
-        {selectCategory} {searchRecipesByName}
-        <div className={classes.form_control}>
-          <FormControl>
-            <Link to="/add-recipe">
-              <Button variant="contained" size="large">
-                Add Recipe
-              </Button>
-            </Link>
-          </FormControl>
-        </div>
-      </form>
-    );
-  }
-
-  return <div>{form}</div>;
+  return (
+    <form className={classes.layout}>
+      {selectCategory} {searchRecipesByName}
+      <div className={classes.form_control}>
+        <FormControl>
+          <Link to="/add-recipe">
+            <Button variant="contained" size="large">
+              Add Recipe
+            </Button>
+          </Link>
+        </FormControl>
+      </div>
+    </form>
+  );
 };
 
 export default RecipesHeader;

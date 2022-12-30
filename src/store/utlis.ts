@@ -3,8 +3,8 @@ import {
   FullRecipeFromAPI,
   FullRecipeInnerUse,
   IngredientAndMeasure,
-} from '../../../models/recipes';
-import getFullRecipeByID from '../../../api/recipes/get-full-recipe-by-ID';
+} from '../models/recipes';
+import getFullRecipeByID from '../api/recipes/get-full-recipe-by-ID';
 
 export const getFullRecipesFromAPI = async (
   conciseRecipesByCategoryFromAPI: ConciseRecipeByCategoryFromAPI[]

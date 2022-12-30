@@ -1,3 +1,5 @@
+export type CategoriesArray = string[];
+
 export interface ConciseRecipeByCategoryFromAPI {
   idMeal: string;
   strMeal: string;

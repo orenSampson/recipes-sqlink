@@ -1,20 +1,35 @@
 import React, { useState, useEffect } from 'react';
 
-import { CategoriesArray } from '../models/recipes';
+import {
+  CategoriesArray,
+  ConciseRecipeByCategoryFromAPI,
+  FullRecipeInnerUse,
+} from '../models/recipes';
+
 import getCategories from '../api/recipes/get-categories';
+import getConciseRecipesByCategory from '../api/recipes/get-concise-recipes-by-category';
+import getFullRecipesByName from '../api/recipes/get-full-recipes-by-name';
+
+import { getFullRecipesFromAPI, transformFromAPIToInnerUse } from './utlis';
 
 type RecipesContextObj = {
   categories: CategoriesArray;
   chosenCategory: string;
+  fullRecipes: FullRecipeInnerUse[];
   getCategoriesFromAPI: () => void;
-  setChosenCategory: (category: string) => void;
+  setChosenCategoryHandler: (category: string) => void;
+  onCategoryChange: (nameOfCategory: string) => void;
+  onClickSearchRecipesByName: (name: string) => void;
 };
 
 export const RecipesContext = React.createContext<RecipesContextObj>({
   categories: [],
   chosenCategory: '',
+  fullRecipes: [],
   getCategoriesFromAPI: () => {},
-  setChosenCategory: (category: string) => {},
+  setChosenCategoryHandler: (category: string) => {},
+  onCategoryChange: (nameOfCategory: string) => {},
+  onClickSearchRecipesByName: (name: string) => {},
 });
 
 interface Props {
@@ -24,6 +39,7 @@ interface Props {
 const RecipesContextProvider: React.FC<Props> = (props) => {
   const [categories, setCategories] = useState<CategoriesArray>([]);
   const [chosenCategory, setChosenCategory] = useState<string>('');
+  const [fullRecipes, setFullRecipes] = useState<FullRecipeInnerUse[]>([]);
 
   useEffect(() => {
     getCategoriesFromAPIHandler();
@@ -36,8 +52,6 @@ const RecipesContextProvider: React.FC<Props> = (props) => {
       (someCategoryFromAPI) => someCategoryFromAPI.strCategory
     );
 
-    console.log('stringCatrgories', stringCatrgories);
-
     setCategories(stringCatrgories);
   };
 
@@ -45,11 +59,43 @@ const RecipesContextProvider: React.FC<Props> = (props) => {
     setChosenCategory(category);
   };
 
+  const onCategoryChangeHandler = async (nameOfCategory: string) => {
+    let conciseRecipesByCategoryFromAPI: ConciseRecipeByCategoryFromAPI[];
+    try {
+      conciseRecipesByCategoryFromAPI = await getConciseRecipesByCategory(
+        nameOfCategory
+      );
+    } catch (error) {
+      console.log('error :>> ', error);
+      return;
+    }
+
+    const fullRecipesFromAPI = await getFullRecipesFromAPI(
+      conciseRecipesByCategoryFromAPI
+    );
+
+    const fullRecipesInnerUse = transformFromAPIToInnerUse(fullRecipesFromAPI);
+
+    setFullRecipes(fullRecipesInnerUse);
+  };
+
+  const onClickSearchRecipesByNameHandler = async (name: string) => {
+    const fullRecipesByName = await getFullRecipesByName(name);
+
+    const fullRecipesByNameInnerUse =
+      transformFromAPIToInnerUse(fullRecipesByName);
+
+    setFullRecipes(fullRecipesByNameInnerUse);
+  };
+
   const recipesContextValue: RecipesContextObj = {
     categories,
     chosenCategory,
+    fullRecipes,
     getCategoriesFromAPI: getCategoriesFromAPIHandler,
-    setChosenCategory: setChosenCategoryHandler,
+    setChosenCategoryHandler,
+    onCategoryChange: onCategoryChangeHandler,
+    onClickSearchRecipesByName: onClickSearchRecipesByNameHandler,
   };
 
   return (
