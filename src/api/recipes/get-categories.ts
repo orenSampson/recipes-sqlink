@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// import { CategoryFromAPI } from '../models/recipes';
-
 export interface CategoryFromAPI {
   strCategory: string;
 }
