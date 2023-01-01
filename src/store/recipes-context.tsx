@@ -16,20 +16,24 @@ type RecipesContextObj = {
   categories: CategoriesArray;
   chosenCategory: string;
   fullRecipes: FullRecipeInnerUse[];
+  getRecipesIncluesUserAdded: () => FullRecipeInnerUse[];
   getCategoriesFromAPI: () => void;
   setChosenCategoryHandler: (category: string) => void;
   onCategoryChange: (nameOfCategory: string) => void;
   onClickSearchRecipesByName: (name: string) => void;
+  onAddUserFullRecipeHandler: (newRecipe: FullRecipeInnerUse) => void;
 };
 
 export const RecipesContext = React.createContext<RecipesContextObj>({
   categories: [],
   chosenCategory: '',
   fullRecipes: [],
+  getRecipesIncluesUserAdded: () => [],
   getCategoriesFromAPI: () => {},
   setChosenCategoryHandler: (category: string) => {},
   onCategoryChange: (nameOfCategory: string) => {},
   onClickSearchRecipesByName: (name: string) => {},
+  onAddUserFullRecipeHandler: (newRecipe: FullRecipeInnerUse) => {},
 });
 
 interface Props {
@@ -40,10 +44,25 @@ const RecipesContextProvider: React.FC<Props> = (props) => {
   const [categories, setCategories] = useState<CategoriesArray>([]);
   const [chosenCategory, setChosenCategory] = useState<string>('');
   const [fullRecipes, setFullRecipes] = useState<FullRecipeInnerUse[]>([]);
+  const [userAddedFullRecipes, setUserAddedFullRecipes] = useState<
+    FullRecipeInnerUse[]
+  >([]);
 
   useEffect(() => {
     getCategoriesFromAPIHandler();
   }, []);
+
+  const getRecipesIncluesUserAdded = () => {
+    const userAddedRecipesByCategory: FullRecipeInnerUse[] = [];
+
+    userAddedFullRecipes.forEach((someRecipe) => {
+      if (someRecipe.strCategory === chosenCategory) {
+        userAddedRecipesByCategory.push(someRecipe);
+      }
+    });
+
+    return [...fullRecipes, ...userAddedRecipesByCategory];
+  };
 
   const getCategoriesFromAPIHandler = async () => {
     const categoriesFromAPI = await getCategories();
@@ -88,14 +107,23 @@ const RecipesContextProvider: React.FC<Props> = (props) => {
     setFullRecipes(fullRecipesByNameInnerUse);
   };
 
+  const onAddUserFullRecipeHandler = (newRecipe: FullRecipeInnerUse) => {
+    setUserAddedFullRecipes((prevUserAddedFullRecipes) => [
+      ...prevUserAddedFullRecipes,
+      newRecipe,
+    ]);
+  };
+
   const recipesContextValue: RecipesContextObj = {
     categories,
     chosenCategory,
     fullRecipes,
+    getRecipesIncluesUserAdded,
     getCategoriesFromAPI: getCategoriesFromAPIHandler,
     setChosenCategoryHandler,
     onCategoryChange: onCategoryChangeHandler,
     onClickSearchRecipesByName: onClickSearchRecipesByNameHandler,
+    onAddUserFullRecipeHandler,
   };
 
   return (

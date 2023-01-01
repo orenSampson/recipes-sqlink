@@ -24,14 +24,6 @@ const RecipesHeader: React.FC = (props) => {
 
   const searchRecipesByNameRef = useRef<HTMLInputElement>(null);
 
-  const menuItems = recipesCtx.categories.map((category) => {
-    return (
-      <MenuItem key={category} value={category}>
-        {category}
-      </MenuItem>
-    );
-  });
-
   const onSelectChangeHandler = (event: SelectChangeEvent) => {
     searchRecipesByNameRef.current!.value = '';
 
@@ -60,7 +52,13 @@ const RecipesHeader: React.FC = (props) => {
           label="category"
           onChange={onSelectChangeHandler}
         >
-          {menuItems}
+          {recipesCtx.categories.map((category) => {
+            return (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </div>

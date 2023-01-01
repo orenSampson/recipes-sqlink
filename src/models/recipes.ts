@@ -7,7 +7,7 @@ export interface ConciseRecipeByCategoryFromAPI {
 }
 
 export interface FullRecipeFromAPI {
-  idMeal: string | null;
+  idMeal: string;
   strMeal: string | null;
   strDrinkAlternate: string | null;
   strCategory: string | null;
@@ -62,23 +62,11 @@ export interface FullRecipeFromAPI {
   dateModified: string | null;
 }
 
-export type IngredientAndMeasure = {
-  ingredient: string;
-  measure: string;
-};
 export interface FullRecipeInnerUse {
-  idMeal: string | null;
-  strMeal: string | null;
-  strDrinkAlternate: string | null;
-  strCategory: string | null;
-  strArea: string | null;
-  strInstructions: string | null;
-  strMealThumb: string | null;
-  strTags: string | null;
-  strYoutube: string | null;
-  strIngredientsAndMeasuresArray: IngredientAndMeasure[];
-  strSource: string | null;
-  strImageSource: string | null;
-  strCreativeCommonsConfirmed: string | null;
-  dateModified: string | null;
+  idMeal: string;
+  strMeal: string;
+  strCategory: string;
+  strInstructions: string;
+  strMealThumb: string;
+  strIngredientsArray: string[];
 }

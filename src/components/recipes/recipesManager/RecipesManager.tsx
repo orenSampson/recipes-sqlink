@@ -11,7 +11,7 @@ const RecipesManager: React.FC = () => {
   let recipesDisplayerJSX = <h1>List of recipes not ready yet</h1>;
   if (recipesCtx.fullRecipes.length > 0) {
     recipesDisplayerJSX = (
-      <RecipesDisplayer fullRecipes={recipesCtx.fullRecipes} />
+      <RecipesDisplayer fullRecipes={recipesCtx.getRecipesIncluesUserAdded()} />
     );
   }
 
